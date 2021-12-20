@@ -15,6 +15,8 @@
         <spark_2.12.version>3.1.2</spark_2.12.version>
         <hadoop-hdfs.version>3.3.1</hadoop-hdfs.version>
         <hadoop-core.version>1.2.1</hadoop-core.version>
+
+        <mongodb-driver-sync.version>4.4.0</mongodb-driver-sync.version>
     </properties>
 
     <dependencies>
@@ -43,6 +45,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-core</artifactId>
             <version>${hadoop-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>${mongodb-driver-sync.version}</version>
         </dependency>
     </dependencies>
 
