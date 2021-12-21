@@ -16,7 +16,7 @@ public class Connection {
       // databases.forEach(db -> System.out.println(db.toJson()));
 
       // connecting to a specific database
-      MongoDatabase sampleTrainingDB = mongoClient.getDatabase("settlement-jobs");
+      MongoDatabase sampleTrainingDB = mongoClient.getDatabase("settlement");
       MongoCollection<Document> regionCollection = sampleTrainingDB.getCollection("region");
       FindIterable<Document> documents = regionCollection.find();
       documents.forEach(r -> {
