@@ -34,7 +34,13 @@ public class MainInMemory {
     StructType structType = new StructType(fields);
     Dataset<Row> dataSet = spark.createDataFrame(inMemory, structType);
 
-    dataSet.show();
+    dataSet.createOrReplaceTempView("logging_table");
+
+    // using group by
+    // Dataset<Row> result = spark.sql("select level, count(datetime) from logging_table group by level order by level desc");
+    Dataset<Row> result = spark.sql("select level, date_format(datetime, 'MMMM') as month, count(1) from logging_table group by level, month");
+
+    result.show();
 
     spark.close();
   }
