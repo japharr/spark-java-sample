@@ -18,7 +18,8 @@ public class MainInMemory {
         .builder().appName("testingSql").master("local[2]")
         .getOrCreate();
 
-    List<Row> inMemory = new ArrayList<Row>();
+    List<Row> inMemory = new ArrayList<>();
+
     inMemory.add(RowFactory.create("WARN", "2016-12-31 04:19:32"));
     inMemory.add(RowFactory.create("FATAL", "2016-12-31 03:22:34"));
     inMemory.add(RowFactory.create("WARN", "2016-12-31 03:21:21"));
