@@ -1,4 +1,4 @@
-package com.japharr.sample.tupple;
+package com.japharr.sample.pair;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -6,7 +6,6 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import scala.Tuple1$;
 import scala.Tuple2;
 
 import java.util.ArrayList;
@@ -14,11 +13,12 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> inputData = new ArrayList<>();
-        inputData.add(4);
-        inputData.add(16);
-        inputData.add(9);
-        inputData.add(100);
+        List<String> inputData = new ArrayList<>();
+        inputData.add("WARN: Monday 4 September, 2005");
+        inputData.add("INFO: Tuesday 5  September, 2005");
+        inputData.add("WARN: Tuesday 5 September, 2005");
+        inputData.add("FATAL: Wednesday 6 September, 2005");
+        inputData.add("ERROR: Thursday 4 September, 2005");
 
         // logger
         Logger.getLogger("org.apache").setLevel(Level.WARN);
@@ -32,10 +32,14 @@ public class Main {
         JavaSparkContext sc = new JavaSparkContext(conf);
 
         // Read the inputData to RDD
-        JavaRDD<Integer> source = sc.parallelize(inputData);
+        JavaRDD<String> source = sc.parallelize(inputData);
 
         // Create a square of the data using reduce()
-        //JavaRDD<Tuple2<Integer, Double>> squareRdd = source.map(a -> new Tuple2(a, Math.sqrt(a)));
-        JavaPairRDD<Integer, Double> squareRdd = source.mapToPair(a -> new Tuple2<>(a, Math.sqrt(a)));
+        JavaPairRDD<String, Long> pairRDD = source.mapToPair(a -> {
+            String[] splits = a.split(":");
+            return new Tuple2<>(splits[9], 1L);
+        });
+
+        JavaPairRDD<String, Long>  sumRdd = pairRDD.reduceByKey((a, b) -> a + b);
     }
 }
