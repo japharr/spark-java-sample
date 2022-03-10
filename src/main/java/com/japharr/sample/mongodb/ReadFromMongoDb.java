@@ -27,13 +27,15 @@ public class ReadFromMongoDb {
 
     // Create a custom ReadConfig
     Map<String, String> readOverrides = new HashMap<String, String>();
-    readOverrides.put("collection", "product");
+    readOverrides.put("collection", "posting_record");
     readOverrides.put("readPreference.name", "secondaryPreferred");
     ReadConfig readConfig = ReadConfig.create(jsc).withOptions(readOverrides);
 
     Dataset<Row> result = MongoSpark.loadAndInferSchema(spark, readConfig);
 
-    result.show();
+    Dataset<Row> output = result.filter(result.col("tag").isin("NOSTRO CONTROL", "NOSTRO ITEM"));
+
+    output.show();
 
     spark.close();
   }
